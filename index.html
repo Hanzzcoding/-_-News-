@@ -199,6 +199,15 @@
             border: 1px solid var(--accent-blue);
         }
 
+        .tag-user {
+            background-color: #3b0764;
+            color: #d8b4fe;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            border: 1px solid #c084fc;
+        }
+
         .news-title {
             font-size: 1.3rem;
             color: #ffffff;
@@ -212,6 +221,100 @@
             font-size: 0.95rem;
             margin-bottom: 1rem;
             cursor: pointer;
+        }
+
+        /* WIDGET UNTUK PUBLIK UPLOAD TAUTAN */
+        .upload-widget {
+            background: linear-gradient(135deg, #101419 0%, #1a222a 100%);
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        .upload-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-desc {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background-color: #06080a;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* STYLES INDIKATOR VERIFIKASI & UNGGAH FILE OPSIONAL */
+        .status-badge {
+            display: none;
+            font-size: 0.8rem;
+            color: #00f2fe;
+            font-weight: bold;
+            margin-bottom: 6px;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-badge.active {
+            display: flex;
+        }
+
+        .file-upload-box {
+            display: none;
+            background: rgba(0, 242, 254, 0.03);
+            border: 1px dashed var(--accent-blue);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .file-upload-box.active {
+            display: block;
+        }
+
+        .file-label {
+            font-size: 0.8rem;
+            color: #8b949e;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(90deg, #00f2fe 0%, #1976d2 100%);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
         }
 
         /* STYLES BAGIKAN / SHARE BUTTONS */
@@ -543,7 +646,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <img src="https://files.catbox.moe/fi50yk.png" alt="HANZY多音_Animation News Logo" class="logo-image">
         
@@ -554,219 +656,111 @@
             </span>
         </h1>
 
-        <div class="ai-badge">🤖 Auto-Aggregated AI News Engine</div>
+        <div class="ai-badge">🤖 Auto-Aggregated & Public News Engine</div>
     </header>
 
-    <!-- Navigasi Dinamis -->
     <nav>
         <a id="nav-beranda" class="active" onclick="filterCategory('all', 'nav-beranda')">Beranda</a>
+        <a id="nav-user" onclick="filterCategory('user', 'nav-user')">📩 Kiriman Publik</a>
         <a id="nav-ai" onclick="filterCategory('ai', 'nav-ai')">Berita AI Terbaru</a>
         <a id="nav-trending" onclick="filterCategory('trending', 'nav-trending')">Trending</a>
-        <a id="nav-manual" onclick="filterCategory('manual', 'nav-manual')">Manual Update</a>
     </nav>
 
-    <!-- Container Utama -->
     <div class="container">
         
-        <main class="main-content" id="newsContainer">
+        <main class="main-content">
 
-            <!-- 1. Berita: Dragon Ball Super: Beerus -->
-            <article class="news-card news-item ai trending">
-                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" alt="Dragon Ball Super: Beerus" class="news-image" onclick="openNews('dragonball')">
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">✨ Toei Animation Official</span>
-                        <span class="date">📅 2 September 2026</span>
+            <section class="upload-widget">
+                <h3 class="upload-title">📢 Kirim Tautan Berita / Tren TikTok Baru</h3>
+                <p class="upload-desc">Nemu tren anime/kartun di TikTok atau berita lain? Masukkan judul & tautannya di sini agar langsung terbit di 𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News!</p>
+                
+                <form id="publicNewsForm" onsubmit="submitPublicNews(event)">
+                    <div class="form-group">
+                        <input type="text" id="inputTitle" class="form-input" placeholder="Judul Berita / Tren TikTok" required>
                     </div>
-                    <h2 class="news-title" onclick="openNews('dragonball')">Toei Animation Resmi Rilis "Super Surge Trailer" Anime Dragon Ball Super: Beerus!</h2>
-                    <p class="news-excerpt" onclick="openNews('dragonball')">Trailer terbaru menampilkan puncak bentrokan sengit Gokou, Dewa Penghancur Beerus, hingga kebangkitan Frieza. Siap tayang Oktober 2026!</p>
                     
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('dragonball')">Klik untuk melihat trailer & detail lagu tema →</span>
+                    <div class="form-group">
+                        <!-- STATUS TERKONFIRMASI -->
+                        <div id="linkStatusBadge" class="status-badge">
+                            <span>Terkonfirmasi</span>
+                            <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
+                        </div>
+                        <input type="url" id="inputUrl" class="form-input" placeholder="Tautan / URL Berita (TikTok, YouTube, Artikel)" oninput="verifyLinkInput()" required>
+                    </div>
 
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'dragonball')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'dragonball')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'dragonball')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'dragonball')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'dragonball')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('dragonball')">🔗 Salin Tautan</button>
+                    <!-- OPSIONAL: FILE UPLOAD BERITA/VIDEO -->
+                    <div id="fileUploadContainer" class="file-upload-box">
+                        <label class="file-label">📁 Unggah File Berita / Video (Opsional):</label>
+                        <input type="file" id="inputFile" class="form-input" accept="video/*,image/*">
                     </div>
-                </div>
-            </article>
 
-            <!-- 2. Berita Doraemon -->
-            <article class="news-card news-item ai trending">
-                <div class="news-logo-placeholder" onclick="openNews('doraemon')">
-                    <div class="placeholder-title">
-                        𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐
-                        <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
+                    <div class="form-group">
+                        <input type="text" id="inputAuthor" class="form-input" placeholder="Nama Kontributor / Username TikTok" required>
                     </div>
-                    <div class="placeholder-sub">Official News Publication</div>
-                </div>
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">✨ Suara.com Entertainment</span>
-                        <span class="date">📅 8 Januari 2026</span>
-                    </div>
-                    <h2 class="news-title" onclick="openNews('doraemon')">Pamit dari RCTI, Doraemon Segera Tayang di Stasiun TV Lain</h2>
-                    <p class="news-excerpt" onclick="openNews('doraemon')">Setelah menemani pemirsa layar kaca RCTI selama puluhan tahun, serial anime legendaris Doraemon resmi berpamitan dan dikabarkan siap pindah tayang...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('doraemon')">Klik untuk membaca detail selengkapnya →</span>
+                    <button type="submit" class="submit-btn">🚀 Kirim Berita Ke Publik</button>
+                </form>
+            </section>
 
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'doraemon')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'doraemon')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'doraemon')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'doraemon')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'doraemon')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('doraemon')">🔗 Salin Tautan</button>
-                    </div>
-                </div>
-            </article>
+            <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
-            <!-- 3. Berita Melangkah dari Timur -->
-            <article class="news-card news-item ai trending">
-                <div class="news-logo-placeholder" onclick="openNews('melangkah_timur')">
-                    <div class="placeholder-title">
-                        𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐
-                        <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
-                    </div>
-                    <div class="placeholder-sub">Official News Publication</div>
-                </div>
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">✨ Suara.com Kolom</span>
-                        <span class="date">📅 1 September 2026</span>
-                    </div>
-                    <h2 class="news-title" onclick="openNews('melangkah_timur')">Kartun Edukatif atau Etalase Politik? Membongkar Agenda Terselubung di Film "Melangkah dari Timur"</h2>
-                    <p class="news-excerpt" onclick="openNews('melangkah_timur')">Ulasan kritis mengenai animasi lokal "Melangkah dari Timur" yang mempertanyakan apakah karyanya murni edukasi anak atau sarana narasi politik...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('melangkah_timur')">Klik untuk membaca detail selengkapnya →</span>
+                <article class="news-card news-item ai trending">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" alt="Dragon Ball Super: Beerus" class="news-image" onclick="openNews('dragonball')">
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Toei Animation Official</span>
+                            <span class="date">📅 2 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('dragonball')">Toei Animation Resmi Rilis "Super Surge Trailer" Anime Dragon Ball Super: Beerus!</h2>
+                        <p class="news-excerpt" onclick="openNews('dragonball')">Trailer terbaru menampilkan puncak bentrokan sengit Gokou, Dewa Penghancur Beerus, hingga kebangkitan Frieza. Siap tayang Oktober 2026!</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('dragonball')">Klik untuk melihat trailer & detail lagu tema →</span>
 
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'melangkah_timur')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'melangkah_timur')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'melangkah_timur')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'melangkah_timur')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'melangkah_timur')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('melangkah_timur')">🔗 Salin Tautan</button>
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'dragonball')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'dragonball')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'dragonball')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'dragonball')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'dragonball')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('dragonball')">🔗 Salin Tautan</button>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
 
-            <!-- 4. Berita SpongeBob SquarePants -->
-            <article class="news-card news-item ai trending">
-                <img src="https://files.catbox.moe/9jpo0q.jpg" alt="SpongeBob SquarePants" class="news-image" onclick="openNews('spongebob')">
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">✨ AI Verification News</span>
-                        <span class="date">📅 5 September 2026</span>
+                <article class="news-card news-item ai trending">
+                    <div class="news-logo-placeholder" onclick="openNews('doraemon')">
+                        <div class="placeholder-title">
+                            𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐
+                            <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
+                        </div>
+                        <div class="placeholder-sub">Official News Publication</div>
                     </div>
-                    <h2 class="news-title" onclick="openNews('spongebob')">Viral Isu SpongeBob SquarePants Berhenti Tayang Setelah 20 Tahun Lebih, Ini Fakta Sebenarnya!</h2>
-                    <p class="news-excerpt" onclick="openNews('spongebob')">Kabar duka bagi penggemar kartun legendaris usai rumor SpongeBob SquarePants bakal tamat beredar luas di media sosial...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('spongebob')">Klik untuk melihat galeri 3 gambar & detail →</span>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Suara.com Entertainment</span>
+                            <span class="date">📅 8 Januari 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('doraemon')">Pamit dari RCTI, Doraemon Segera Tayang di Stasiun TV Lain</h2>
+                        <p class="news-excerpt" onclick="openNews('doraemon')">Setelah menemani pemirsa layar kaca RCTI selama puluhan tahun, serial anime legendaris Doraemon resmi berpamitan dan dikabarkan siap pindah tayang...</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('doraemon')">Klik untuk membaca detail selengkapnya →</span>
 
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'spongebob')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'spongebob')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'spongebob')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'spongebob')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'spongebob')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('spongebob')">🔗 Salin Tautan</button>
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'doraemon')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'doraemon')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'doraemon')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'doraemon')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'doraemon')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('doraemon')">🔗 Salin Tautan</button>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
 
-            <!-- 5. Berita Bleach -->
-            <article class="news-card news-item trending manual">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" alt="Bleach TYBW Finale" class="news-image" onclick="openNews('bleach')">
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">🔥 Anime Global Update</span>
-                        <span class="date">📅 4 September 2026</span>
-                    </div>
-                    <h2 class="news-title" onclick="openNews('bleach')">Bleach: Thousand-Year Blood War Bagian Akhir Resmi Tayang, Puncak Pertempuran Ichigo & Yhwach!</h2>
-                    <p class="news-excerpt" onclick="openNews('bleach')">Anime legendaris Bleach mendekati babak penutupnya setelah 22 tahun mewarnai dunia anime global. Studio Pierrot menjanjikan kualitas animasi level bioskop...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('bleach')">Klik untuk melihat galeri 3 gambar & detail →</span>
-
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'bleach')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'bleach')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'bleach')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'bleach')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'bleach')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('bleach')">🔗 Salin Tautan</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 6. Berita Jujutsu Kaisen -->
-            <article class="news-card news-item ai trending">
-                <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop" alt="Jujutsu Kaisen Season 3" class="news-image" onclick="openNews('jjk')">
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">✨ AI Verification News</span>
-                        <span class="date">📅 3 September 2026</span>
-                    </div>
-                    <h2 class="news-title" onclick="openNews('jjk')">MAPPA Resmi Rilis Trailer Jujutsu Kaisen Season 3: Arc Culling Game Hadirkan Animasi Memukau!</h2>
-                    <p class="news-excerpt" onclick="openNews('jjk')">Pertarungan mati-matian di Culling Game resmi dimulai. MAPPA mengonfirmasi visual memukau dan aksi pertarungan yang jauh lebih intens...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('jjk')">Klik untuk melihat galeri 3 gambar & detail →</span>
-
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'jjk')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'jjk')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'jjk')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'jjk')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'jjk')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('jjk')">🔗 Salin Tautan</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 7. Berita JoJo's Bizarre Adventure -->
-            <article class="news-card news-item manual">
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop" alt="JoJo Steel Ball Run" class="news-image" onclick="openNews('jojo')">
-                <div class="news-body">
-                    <div class="news-meta">
-                        <span class="tag-ai">🌐 Global Release</span>
-                        <span class="date">📅 2 September 2026</span>
-                    </div>
-                    <h2 class="news-title" onclick="openNews('jojo')">JoJo’s Bizarre Adventure: Steel Ball Run Adaptasi Anime Resmi Diumumkan Tayang di Streaming Global!</h2>
-                    <p class="news-excerpt" onclick="openNews('jojo')">Bagian ke-7 dari franchise ikonik karya Hirohiko Araki, Steel Ball Run, akhirnya mendapatkan tanggal rilis resmi untuk platform streaming internasional...</p>
-                    
-                    <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('jojo')">Klik untuk melihat galeri 3 gambar & detail →</span>
-
-                    <!-- FITUR BAGIKAN -->
-                    <div class="share-container">
-                        <span class="share-label">🚀 Bagikan:</span>
-                        <button class="share-btn btn-wa" onclick="shareNews('wa', 'jojo')">WhatsApp</button>
-                        <button class="share-btn btn-fb" onclick="shareNews('fb', 'jojo')">Facebook</button>
-                        <button class="share-btn btn-tt" onclick="shareNews('tt', 'jojo')">TikTok</button>
-                        <button class="share-btn btn-x" onclick="shareNews('x', 'jojo')">X / Twitter</button>
-                        <button class="share-btn btn-tg" onclick="shareNews('tg', 'jojo')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyLink('jojo')">🔗 Salin Tautan</button>
-                    </div>
-                </div>
-            </article>
+            </div>
 
         </main>
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-widget">
                 <h3 class="widget-title">🌐 AI System Log</h3>
@@ -777,8 +771,7 @@
                         <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
                     </span>
                 </p>
-                <p style="font-size: 0.85rem; color: #8b949e; margin-top: 5px;">Status: <span style="color: #4caf50; font-weight: bold;">● Active Bot</span></p>
-                <p style="font-size: 0.85rem; color: #8b949e;">Fact Check: Verified</p>
+                <p style="font-size: 0.85rem; color: #8b949e; margin-top: 5px;">Public Submission: <span style="color: #4caf50; font-weight: bold;">● Active & Open</span></p>
             </div>
 
             <div class="sidebar-widget">
@@ -786,24 +779,17 @@
                 <ul class="sidebar-list">
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
                     <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
-                    <li><a onclick="openNews('melangkah_timur')"># Melangkah dari Timur</a></li>
-                    <li><a onclick="openNews('spongebob')"># SpongeBob Tamat?</a></li>
-                    <li><a onclick="openNews('bleach')"># Bleach TYBW Finale</a></li>
-                    <li><a onclick="openNews('jjk')"># Jujutsu Kaisen S3</a></li>
-                    <li><a onclick="openNews('jojo')"># JoJo Steel Ball Run</a></li>
                 </ul>
             </div>
         </aside>
 
     </div>
 
-    <!-- POPUP MODAL DINAMIS -->
     <div class="modal-overlay" id="newsModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeNews()">&times;</button>
             <div class="modal-body">
                 
-                <!-- SLIDER GAMBAR MODAL -->
                 <div class="carousel-container" id="carouselWrapper">
                     <div class="carousel-slide active"><img id="img1" src="" alt="Slide 1"></div>
                     <div class="carousel-slide"><img id="img2" src="" alt="Slide 2"></div>
@@ -819,7 +805,6 @@
                     </div>
                 </div>
 
-                <!-- LOGO BADGE MODAL (BERITA TANPA GAMBAR) -->
                 <div id="modalLogoPlaceholder" class="news-logo-placeholder" style="display: none; margin-bottom: 1.5rem; border-radius: 8px;">
                     <div class="placeholder-title">
                         𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐
@@ -833,15 +818,12 @@
                 
                 <div class="modal-description">
                     <div id="mShort">Deskripsi singkat berita...</div>
-                    
                     <span class="more-text" id="moreText">
                         <div id="mFull">Detail isi berita lengkap...</div>
                     </span>
-
                     <button class="read-more-btn" id="readMoreBtn" onclick="toggleReadMore()">Tampilkan Lebih Banyak 👇</button>
                 </div>
 
-                <!-- BAGIKAN DI DALAM MODAL -->
                 <div class="share-container" style="margin-top: 1.5rem;">
                     <span class="share-label">🚀 Bagikan Berita Ini:</span>
                     <button id="modalWaBtn" class="share-btn btn-wa">WhatsApp</button>
@@ -865,22 +847,13 @@
         </div>
     </div>
 
-    <!-- TOAST NOTIFIKASI -->
     <div id="toast" class="toast">✅ Tautan berita berhasil disalin!</div>
 
-    <!-- Footer -->
     <footer>
         <img src="https://files.catbox.moe/fi50yk.png" alt="Footer Logo" class="footer-logo"><br>
-        <p>
-            &copy; 2026 
-            <span class="brand-name">
-                <b>𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News 🌐</b>
-                <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
-            </span>. All Rights Reserved.
-        </p>
+        <p>&copy; 2026 <b>𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News 🌐</b>. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript Dinamis -->
     <script>
         const newsData = {
             dragonball: {
@@ -892,75 +865,104 @@
                     "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
                     "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop"
                 ],
-                short: "Kanal YouTube resmi Toei Animation meluncurkan 'Super Surge Trailer' berdurasi 1:52 untuk proyek anime terbaru 'Dragon Ball Super: Beerus'. Trailer ini memperlihatkan ancaman Dewa Penghancur Beerus, kebangkitan Frieza, dan pertarungan sengit Super Saiyan God Son Goku.",
-                full: "<br><p><b>💥 Detail Trailer & Lagu Tema:</b></p><p>1. <b>Jadwal Tayang:</b> Dijadwalkan rilis dan tayang secara global pada <b>Oktober 2026</b> di TV & platform streaming.</p><p>2. <b>Sorotan Trailer:</b> Menampilkan pertarungan dramatis Dewa Penghancur Beerus yang mengancam kehancuran planet, kebangkitan Frieza yang mengincar Bumi, serta wujud Super Saiyan God Goku.</p><p>3. <b>Lagu Tema Resmi:</b><br>- Opening Theme: <i>\"ONOGAMI\"</i> oleh MEGATERA·ZERO<br>- Ending Theme: <i>\"Kan Peki No Peki\"</i> oleh VK Blanka</p><p>4. <b>Video Trailer Asli:</b> <a href=\"https://youtu.be/CFgEL7ei8VE\" target=\"_blank\" style=\"color: var(--accent-blue);\">Tonton di YouTube Official Toei Animation</a></p>"
+                short: "Kanal YouTube resmi Toei Animation meluncurkan 'Super Surge Trailer' berdurasi 1:52 untuk proyek anime terbaru 'Dragon Ball Super: Beerus'.",
+                full: "<br><p><b>💥 Detail Trailer & Lagu Tema:</b></p><p>1. <b>Jadwal Tayang:</b> Dijadwalkan rilis dan tayang secara global pada <b>Oktober 2026</b> di TV & platform streaming.</p>"
             },
             doraemon: {
                 title: "Pamit dari RCTI, Doraemon Segera Tayang di Stasiun TV Lain",
                 date: "📅 8 Januari 2026 | Sumber: Suara.com Entertainment",
                 hasImages: false,
                 images: [],
-                short: "Kabar mengejutkan datang dari panggung penyiaran televisi nasional. Serial kartun anime legendaris Doraemon secara resmi dikabarkan menyudahi masa tayangnya di RCTI setelah berdekade-dekade menemani Minggu pagi generasi Indonesia.",
-                full: "<br><p><b>📌 Ringkasan Informasi Penting:</b></p><p>1. <b>Akhir Era Minggu Pagi di RCTI:</b> Doraemon telah menjadi tayangan ikonik RCTI sejak akhir era 1980-an/1990-an. Keputusan untuk mengakhiri penyiaran ini menandai akhir dari sebuah era penting dalam perjalanan animasi televisi Indonesia.</p><p>2. <b>Rencana Perpindahan Hak Siar:</b> Menurut laporan Suara.com, hak siar anime Doraemon dikabarkan siap berpindah ke stasiun TV nasional lain yang berkomitmen melanjutkan penayangan kisah Nobita dan kawan-kawan.</p><p>3. <b>Antusiasme Penggemar:</b> Meski sedih karena tradisi Minggu pagi di RCTI berganti, para penggemar menyambut hangat kabar bahwa serial kesayangan mereka masih akan terus dapat disaksikan di layar kaca Indonesia.</p>"
-            },
-            melangkah_timur: {
-                title: "Kartun Edukatif atau Etalase Politik? Membongkar Agenda Terselubung di Film \"Melangkah dari Timur\"",
-                date: "📅 1 September 2026 | Sumber: Yoursay Suara.com",
-                hasImages: false,
-                images: [],
-                short: "Sebuah opini mendalam diterbitkan mengenai film kartun lokal 'Melangkah dari Timur'. Tulisan ini menyoroti batas tipis antara hiburan edukatif bagi anak-anak Indonesia dengan potensi kampanye politis terselubung yang dikemas dalam format animasi visual menarik.",
-                full: "<br><p><b>📌 Analisis Artikel Kolom:</b></p><p>1. <b>Representasi & Pesan Moral:</b> Film animasi ini awalnya dipuji karena mengangkat keindahan dan keberagaman Indonesia Timur. Namun, sejumlah pengamat mulai menyoroti pesan-pesan instruksional yang dinilai sarat agenda tertentu.</p><p>2. <b>Animasi Sebagai Media Komunikasi:</b> Media kartun dinilai sangat efektif mempengaruhi persepsi publik, terutama kalangan muda, sehingga wacana kritis mengenai muatan politik dalam karya animasi menjadi penting untuk didiskusikan.</p><p>3. <b>Sumber Asli:</b> Dikutip dari artikel opini Yoursay Suara.com (September 2026).</p>"
-            },
-            spongebob: {
-                title: "Viral Isu SpongeBob SquarePants Berhenti Tayang Setelah 20 Tahun Lebih, Ini Fakta Sebenarnya!",
-                date: "📅 5 September 2026 | Verified AI Engine",
-                hasImages: true,
-                images: [
-                    "https://files.catbox.moe/9jpo0q.jpg",
-                    "https://files.catbox.moe/ihqu48.jpg",
-                    "https://files.catbox.moe/r1m3c7.jpg"
-                ],
-                short: "Serial kartun legendaris buatan Stephen Hillenburg, SpongeBob SquarePants, baru-baru ini kembali menjadi pusat perhatian publik usai beredarnya cuplikan gambar dan klaim bahwa acara ini resmi dihentikan setelah lebih dari dua dekade.",
-                full: "<br><p><b>🔍 Hasil Verifikasi AI Engine:</b></p><p>1. <b>Klarifikasi Resmi:</b> Pihak Nickelodeon dan produser resmi mengonfirmasi bahwa serial SpongeBob TIDAK dihentikan secara permanen.</p><p>2. <b>Pengembangan Franchise:</b> Nickelodeon terus melanjutkan seri spin-off seperti <i>Kamp Koral</i> dan <i>The Patrick Star Show</i> serta film layar lebar baru.</p><p>3. <b>Kesimpulan:</b> Fans tidak perlu khawatir, tayangan SpongeBob tetap berlanjut dan menjadi aset animasi utama Nickelodeon.</p>"
-            },
-            bleach: {
-                title: "Bleach: Thousand-Year Blood War Bagian Akhir Resmi Tayang, Puncak Pertempuran Ichigo & Yhwach!",
-                date: "📅 4 September 2026 | Global News",
-                hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop"
-                ],
-                short: "Setelah menanti sekian lama, babak penutup dari anime Bleach: Thousand-Year Blood War akhirnya mencapai puncaknya di bulan September 2026 ini.",
-                full: "<br><p><b>⚔️ Sorotan Utama Episode Akhir:</b></p><p>1. <b>Animasi Kualitas Bioskop:</b> Studio Pierrot menyajikan koreografi pertarungan tingkat tinggi dengan efek visual modern.</p><p>2. <b>Adegan Tambahan Original Manga:</b> Terdapat beberapa adegan canon tambahan yang langsung dispesifikasi oleh sang kreator, Tite Kubo.</p><p>3. <b>Penutup Manis 22 Tahun:</b> Pertempuran takdir antara Ichigo Kurosaki dan Raja Quincy Yhwach menjadi momen bersejarah dalam industri anime shonen.</p>"
-            },
-            jjk: {
-                title: "MAPPA Resmi Rilis Trailer Jujutsu Kaisen Season 3: Arc Culling Game Hadirkan Animasi Memukau!",
-                date: "📅 3 September 2026 | Verified AI Engine",
-                hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&auto=format&fit=crop"
-                ],
-                short: "Studio MAPPA secara mengejutkan merilis cuplikan perdana untuk Jujutsu Kaisen Season 3 yang akan mengadaptasi arc Culling Game (Permainan Pemusnahan).",
-                full: "<br><p><b>🔥 Fakta Menarik Culling Game Arc:</b></p><p>1. <b>Turnamen Battle Royale Mematikan:</b> Yuji Itadori dan Yuta Okkotsu harus berjuang melewati puluhan penyihir Jujutsu era kuno dan modern.</p><p>2. <b>Aksi Tanpa Henti:</b> MAPPA memfokuskan koreografi pertarungan tangan kosong dan ekspansi domain yang dramatis.</p><p>3. <b>Peringkat Popularitas:</b> Musim ketiga ini langsung menduduki tren nomor 1 di platform anime global saat pertama kali dirilis.</p>"
-            },
-            jojo: {
-                title: "JoJo’s Bizarre Adventure: Steel Ball Run Adaptasi Anime Resmi Diumumkan Tayang di Streaming Global!",
-                date: "📅 2 September 2026 | Manual Update",
-                hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&auto=format&fit=crop"
-                ],
-                short: "Para penggemar seri JoJo di seluruh dunia akhirnya mendapatkan kabar bahagia! Adaptasi anime dari Steel Ball Run (Part 7) resmi masuk dalam jadwal tayang tahun ini.",
-                full: "<br><p><b>🐎 Informasi Rilis & Cerita:</b></p><p>1. <b>Latar Belakang Cerita:</b> Berlatar di Amerika Serikat tahun 1890, menceritakan pacuan kuda lintas benua yang melintasi tantangan mematikan dan pertarungan Stand unik.</p><p>2. <b>Karakter Utama:</b> Johnny Joestar dan Gyro Zeppeli menjadi pahlawan utama dalam kisah perburuan bagian tubuh suci ini.</p><p>3. <b>Standar Efek Visual:</b> Menggabungkan efek animasi 2D yang sangat mendetail serta animasi pacuan kuda CGI modern.</p>"
+                short: "Kabar mengejutkan datang dari panggung penyiaran televisi nasional. Serial kartun anime legendaris Doraemon secara resmi dikabarkan menyudahi masa tayangnya di RCTI.",
+                full: "<br><p><b>📌 Ringkasan Informasi Penting:</b></p><p>1. <b>Akhir Era Minggu Pagi di RCTI:</b> Doraemon telah menjadi tayangan ikonik RCTI sejak era 1990-an.</p>"
             }
         };
 
+        // --- VERIFIKASI TAUTAN OTOMATIS & INTEGRASI FILE UPLOAD ---
+        function verifyLinkInput() {
+            const urlInput = document.getElementById('inputUrl').value.trim();
+            const badge = document.getElementById('linkStatusBadge');
+            const fileBox = document.getElementById('fileUploadContainer');
+
+            // Cek kriteria simpel apakah tautan valid
+            if (urlInput.length > 8 && (urlInput.startsWith("http://") || urlInput.startsWith("https://"))) {
+                badge.classList.add('active');
+                fileBox.classList.add('active');
+            } else {
+                badge.classList.remove('active');
+                fileBox.classList.remove('active');
+            }
+        }
+
+        // --- SISTEM UPLOAD PUBLIK (UGC) ---
+        let publicArticles = JSON.parse(localStorage.getItem('hanzy_user_news')) || [];
+
+        function renderPublicNews() {
+            publicArticles.forEach(item => {
+                const card = document.createElement('article');
+                card.className = "news-card news-item user";
+                
+                let fileNotice = item.fileName ? `<p class="news-excerpt" style="color: var(--accent-blue); font-size: 0.85rem;">📌 Lampiran Berkas: ${item.fileName}</p>` : '';
+
+                card.innerHTML = `
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-user">📩 Kiriman: ${item.author}</span>
+                            <span class="date">📅 ${item.date}</span>
+                        </div>
+                        <h2 class="news-title" onclick="window.open('${item.url}', '_blank')">${item.title}</h2>
+                        <p class="news-excerpt">Tautan Sumber: <a href="${item.url}" target="_blank" style="color: var(--accent-blue);">${item.url}</a></p>
+                        ${fileNotice}
+                        
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareDirect('wa', '${item.title}', '${item.url}')">WhatsApp</button>
+                            <button class="share-btn btn-tg" onclick="shareDirect('tg', '${item.title}', '${item.url}')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyDirect('${item.url}')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('newsContainer').prepend(card);
+            });
+        }
+
+        function submitPublicNews(event) {
+            event.preventDefault();
+            const title = document.getElementById('inputTitle').value;
+            const url = document.getElementById('inputUrl').value;
+            const author = document.getElementById('inputAuthor').value;
+            const fileInput = document.getElementById('inputFile');
+            
+            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : null;
+
+            const newItem = {
+                title: title,
+                url: url,
+                author: author,
+                fileName: fileName,
+                date: new Date().toLocaleDateString('id-ID')
+            };
+
+            publicArticles.push(newItem);
+            localStorage.setItem('hanzy_user_news', JSON.stringify(publicArticles));
+
+            document.getElementById('publicNewsForm').reset();
+            verifyLinkInput(); // Reset tampilan status badge & file upload
+            location.reload(); 
+        }
+
+        function shareDirect(platform, title, url) {
+            const text = encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${title}\n\nTautan: ${url}`);
+            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+            if (platform === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`, '_blank');
+        }
+
+        function copyDirect(url) {
+            navigator.clipboard.writeText(url);
+            showToast("✅ Tautan berhasil disalin!");
+        }
+
+        // --- SISTEM MODAL & SLIDER ---
         let slideIndex = 0;
 
         function openNews(key) {
@@ -986,7 +988,6 @@
             document.getElementById('mShort').innerHTML = data.short;
             document.getElementById('mFull').innerHTML = data.full;
 
-            // Atur tombol bagikan di dalam modal
             document.getElementById('modalWaBtn').onclick = () => shareNews('wa', key);
             document.getElementById('modalFbBtn').onclick = () => shareNews('fb', key);
             document.getElementById('modalTtBtn').onclick = () => shareNews('tt', key);
@@ -1006,28 +1007,16 @@
             document.getElementById('newsModal').classList.remove('active');
         }
 
-        function changeSlide(n) {
-            showSlide(slideIndex += n);
-        }
-
-        function currentSlide(n) {
-            showSlide(slideIndex = n);
-        }
+        function changeSlide(n) { showSlide(slideIndex += n); }
+        function currentSlide(n) { showSlide(slideIndex = n); }
 
         function showSlide(n) {
             let slides = document.getElementsByClassName("carousel-slide");
             let dots = document.getElementsByClassName("dot");
-            
             if (n >= slides.length) { slideIndex = 0; }
             if (n < 0) { slideIndex = slides.length - 1; }
-            
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
-            }
-            for (let i = 0; i < dots.length; i++) {
-                dots[i].classList.remove("active");
-            }
-            
+            for (let i = 0; i < slides.length; i++) slides[i].classList.remove("active");
+            for (let i = 0; i < dots.length; i++) dots[i].classList.remove("active");
             slides[slideIndex].classList.add("active");
             dots[slideIndex].classList.add("active");
         }
@@ -1035,7 +1024,6 @@
         function toggleReadMore() {
             const moreText = document.getElementById("moreText");
             const btnText = document.getElementById("readMoreBtn");
-
             if (moreText.style.display === "inline") {
                 moreText.style.display = "none";
                 btnText.innerHTML = "Tampilkan Lebih Banyak 👇";
@@ -1046,102 +1034,52 @@
         }
 
         function filterCategory(category, navId) {
-            const navLinks = document.querySelectorAll('nav a');
-            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
             document.getElementById(navId).classList.add('active');
 
-            const cards = document.querySelectorAll('.news-item');
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = 'block';
-                } else if (card.classList.contains(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+            document.querySelectorAll('.news-item').forEach(card => {
+                if (category === 'all') card.style.display = 'block';
+                else if (card.classList.contains(category)) card.style.display = 'block';
+                else card.style.display = 'none';
             });
         }
 
-        // --- FUNGSIONALITAS BAGIKAN & SALIN TAUTAN ---
         function getShareUrl(key) {
-            const baseUrl = window.location.href.split('#')[0];
-            return `${baseUrl}#${key}`;
+            return `${window.location.href.split('#')[0]}#${key}`;
         }
 
         function shareNews(platform, key) {
             const item = newsData[key];
             if (!item) return;
-
             const url = encodeURIComponent(getShareUrl(key));
             const text = encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${item.title}\n\nBaca selengkapnya di: `);
 
-            let shareLink = "";
-
-            switch (platform) {
-                case 'wa':
-                    shareLink = `https://api.whatsapp.com/send?text=${text}%20${url}`;
-                    break;
-                case 'fb':
-                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                    break;
-                case 'x':
-                    shareLink = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-                    break;
-                case 'tg':
-                    shareLink = `https://t.me/share/url?url=${url}&text=${text}`;
-                    break;
-                case 'tt':
-                    // TikTok tidak memiliki URL direct share resmi, maka otomatis menyalin tautan & mengarahkan ke TikTok
-                    copyLink(key);
-                    setTimeout(() => {
-                        window.open("https://www.tiktok.com/", "_blank");
-                    }, 1000);
-                    return;
-            }
-
-            if (shareLink) {
-                window.open(shareLink, '_blank');
-            }
+            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+            if (platform === 'tg') window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+            if (platform === 'tt') { copyLink(key); window.open("https://www.tiktok.com/", "_blank"); }
         }
 
         function copyLink(key) {
-            const link = getShareUrl(key);
-            navigator.clipboard.writeText(link).then(() => {
-                showToast("✅ Tautan berita berhasil disalin!");
-            }).catch(() => {
-                // Fallback untuk browser lama
-                const dummy = document.createElement("input");
-                document.body.appendChild(dummy);
-                dummy.value = link;
-                dummy.select();
-                document.execCommand("copy");
-                document.body.removeChild(dummy);
-                showToast("✅ Tautan berita berhasil disalin!");
-            });
+            navigator.clipboard.writeText(getShareUrl(key)).then(() => showToast("✅ Tautan berita berhasil disalin!"));
         }
 
         function showToast(message) {
             const toast = document.getElementById("toast");
             toast.innerText = message;
             toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 3000);
+            setTimeout(() => toast.classList.remove("show"), 3000);
         }
 
-        // Cek jika halaman dibuka langsung dengan tautan anchor (#dragonball, dll)
         window.addEventListener('load', () => {
+            renderPublicNews();
             const hash = window.location.hash.substring(1);
-            if (hash && newsData[hash]) {
-                openNews(hash);
-            }
+            if (hash && newsData[hash]) openNews(hash);
         });
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('newsModal');
-            if (event.target == modal) {
-                closeNews();
-            }
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('newsModal')) closeNews();
         }
     </script>
 
