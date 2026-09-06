@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News 🌐</title>
+    
+    <!-- FIREBASE SDK (KONEKSI UNIFIED SERVER) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
     <style>
         :root {
             --bg-color: #06080a;
@@ -129,14 +134,13 @@
             border-color: var(--accent-blue);
         }
 
-        .news-image {
+        .news-image, .news-video {
             width: 100%;
             height: auto;
             max-height: 400px;
             object-fit: contain;
             background-color: #000;
             display: block;
-            cursor: pointer;
         }
 
         .news-logo-placeholder {
@@ -220,10 +224,8 @@
             color: #8b949e;
             font-size: 0.95rem;
             margin-bottom: 1rem;
-            cursor: pointer;
         }
 
-        /* WIDGET UNTUK PUBLIK UPLOAD TAUTAN */
         .upload-widget {
             background: linear-gradient(135deg, #101419 0%, #1a222a 100%);
             border: 1px solid var(--accent-blue);
@@ -265,7 +267,6 @@
             border-color: var(--accent-blue);
         }
 
-        /* STYLES INDIKATOR VERIFIKASI & UNGGAH FILE OPSIONAL */
         .status-badge {
             display: none;
             font-size: 0.8rem;
@@ -317,7 +318,6 @@
             opacity: 0.9;
         }
 
-        /* STYLES BAGIKAN / SHARE BUTTONS */
         .share-container {
             margin-top: 1.2rem;
             padding-top: 1rem;
@@ -595,7 +595,6 @@
             color: #8b949e;
         }
 
-        /* NOTIFIKASI TOAST UNTUK SALIN TAUTAN */
         .toast {
             visibility: hidden;
             min-width: 250px;
@@ -656,7 +655,7 @@
             </span>
         </h1>
 
-        <div class="ai-badge">🤖 Auto-Aggregated & Public News Engine</div>
+        <div class="ai-badge">🤖 Unified Server Synchronized</div>
     </header>
 
     <nav>
@@ -680,7 +679,6 @@
                     </div>
                     
                     <div class="form-group">
-                        <!-- STATUS TERKONFIRMASI -->
                         <div id="linkStatusBadge" class="status-badge">
                             <span>Terkonfirmasi</span>
                             <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
@@ -688,21 +686,46 @@
                         <input type="url" id="inputUrl" class="form-input" placeholder="Tautan / URL Berita (TikTok, YouTube, Artikel)" oninput="verifyLinkInput()" required>
                     </div>
 
-                    <!-- OPSIONAL: FILE UPLOAD BERITA/VIDEO -->
                     <div id="fileUploadContainer" class="file-upload-box">
-                        <label class="file-label">📁 Unggah File Berita / Video (Opsional):</label>
-                        <input type="file" id="inputFile" class="form-input" accept="video/*,image/*">
+                        <label class="file-label">📁 Unggah Foto atau Video Berita (Opsional):</label>
+                        <input type="file" id="inputFile" class="form-input" accept="image/*,video/*">
                     </div>
 
                     <div class="form-group">
                         <input type="text" id="inputAuthor" class="form-input" placeholder="Nama Kontributor / Username TikTok" required>
                     </div>
-                    <button type="submit" class="submit-btn">🚀 Kirim Berita Ke Publik</button>
+                    <button type="submit" class="submit-btn">🚀 Kirim Berita Ke Server Publik</button>
                 </form>
             </section>
 
             <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
+                <!-- BERITA SPONGEBOB (GAMBAR S) -->
+                <article class="news-card news-item ai trending">
+                    <img src="https://files.catbox.moe/9jpo0q.jpg" alt="SpongeBob SquarePants" class="news-image" onclick="openNews('spongebob')">
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Nickelodeon & GTV Update</span>
+                            <span class="date">📅 5 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('spongebob')">SpongeBob SquarePants Resmi Berhenti Tayang di GTV Awal September 2026!</h2>
+                        <p class="news-excerpt" onclick="openNews('spongebob')">Setelah menemani penonton Indonesia selama hampir 2 dekade, tayangan SpongeBob SquarePants mendadak hilang dari jadwal siaran harian GTV.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('spongebob')">Klik untuk membaca analisis lisensi & info lengkap →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'spongebob')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'spongebob')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'spongebob')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'spongebob')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'spongebob')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('spongebob')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BERITA AI 1 -->
                 <article class="news-card news-item ai trending">
                     <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" alt="Dragon Ball Super: Beerus" class="news-image" onclick="openNews('dragonball')">
                     <div class="news-body">
@@ -727,6 +750,7 @@
                     </div>
                 </article>
 
+                <!-- BERITA AI 2 -->
                 <article class="news-card news-item ai trending">
                     <div class="news-logo-placeholder" onclick="openNews('doraemon')">
                         <div class="placeholder-title">
@@ -757,6 +781,81 @@
                     </div>
                 </article>
 
+                <!-- BERITA AI 3 -->
+                <article class="news-card news-item ai trending">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" alt="Gintama Movie" class="news-image" onclick="openNews('gintama')">
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Aniplex & Sunrise</span>
+                            <span class="date">📅 15 Agustus 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('gintama')">Proyek Baru "Gintama: Yoshiwara in Flames" Resmi Diumumkan!</h2>
+                        <p class="news-excerpt" onclick="openNews('gintama')">Gintoki dan tim Yorozuya kembali dalam penggarapan ulang arc aksi legendaris Yoshiwara dengan kualitas animasi visual generasi terbaru.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('gintama')">Klik untuk membaca detail selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'gintama')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'gintama')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'gintama')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'gintama')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'gintama')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('gintama')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BERITA AI 4 -->
+                <article class="news-card news-item ai">
+                    <img src="https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop" alt="One Piece Live Action" class="news-image" onclick="openNews('onepiece')">
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Shueisha Update</span>
+                            <span class="date">📅 28 Juli 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('onepiece')">One Piece Final Saga: Eiichiro Oda Buka Suara Mengenai Climax Cerita</h2>
+                        <p class="news-excerpt" onclick="openNews('onepiece')">Dalam wawancara eksklusif terbaru, Eiichiro Oda membeberkan petunjuk besar mengenai identitas rahasia 'Abad Kekosongan' dan Harta Karun One Piece.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('onepiece')">Klik untuk membaca detail selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'onepiece')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'onepiece')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'onepiece')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'onepiece')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'onepiece')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('onepiece')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BERITA AI 5 -->
+                <article class="news-card news-item ai trending">
+                    <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop" alt="Demon Slayer Movie" class="news-image" onclick="openNews('demonslayer')">
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">✨ Ufotable Studio</span>
+                            <span class="date">📅 10 Juni 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('demonslayer')">Ufotable Rilis Visual Teaser Pertama Film Trilogi Demon Slayer: Infinity Castle</h2>
+                        <p class="news-excerpt" onclick="openNews('demonslayer')">Pertempuran puncak melawan Muzan Kibutsuji siap dimulai. Film bagian pertama dijadwalkan tayang serentak di bioskop seluruh dunia!</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('demonslayer')">Klik untuk membaca detail selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'demonslayer')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'demonslayer')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'demonslayer')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'demonslayer')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'demonslayer')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('demonslayer')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
             </div>
 
         </main>
@@ -771,14 +870,17 @@
                         <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
                     </span>
                 </p>
-                <p style="font-size: 0.85rem; color: #8b949e; margin-top: 5px;">Public Submission: <span style="color: #4caf50; font-weight: bold;">● Active & Open</span></p>
+                <p style="font-size: 0.85rem; color: #8b949e; margin-top: 5px;">Unified Server: <span style="color: #4caf50; font-weight: bold;">● Active & Open</span></p>
             </div>
 
             <div class="sidebar-widget">
                 <h3 class="widget-title">🔥 Trending Topik</h3>
                 <ul class="sidebar-list">
+                    <li><a onclick="openNews('spongebob')"># SpongeBob Hilang di GTV</a></li>
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
                     <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
+                    <li><a onclick="openNews('gintama')"># Gintama Yoshiwara Arc</a></li>
+                    <li><a onclick="openNews('demonslayer')"># Demon Slayer Infinity Castle</a></li>
                 </ul>
             </div>
         </aside>
@@ -855,7 +957,30 @@
     </footer>
 
     <script>
+        // --- KONFIGURASI SERVER DATABASE ---
+        const firebaseConfig = {
+            databaseURL: "https://DATABASE_KAMU.firebaseio.com"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
+
+        // --- DATA BERITA LOKAL (LENGKAP) ---
         const newsData = {
+            spongebob: {
+                title: "SpongeBob SquarePants Resmi Berhenti Tayang di GTV Awal September 2026!",
+                date: "📅 5 September 2026 | Sumber: ChatNews & Suara Garut",
+                hasImages: true,
+                images: [
+                    "https://files.catbox.moe/9jpo0q.jpg",
+                    "https://files.catbox.moe/r1m3c7.jpg",
+                    "https://files.catbox.moe/ihqu48.jpg"
+                ],
+                short: "Serial animasi SpongeBob SquarePants dilaporkan resmi menghilang dari jadwal tayang harian stasiun televisi GTV mulai awal September 2026.",
+                full: "<br><p><b>🧽 Poin Penting Penghentian Tayang:</b></p><p>1. <b>Akhir dari 20 Tahun Penayangan:</b> Setelah bertahun-tahun menemani anak-anak Indonesia sejak era Global TV, slot tayang SpongeBob digantikan oleh program lain.</p><p>2. <b>Isu Lisensi Hak Siar:</b> Penghentian tayang diduga kuat karena habisnya masa kontrak hak siar antara stasiun TV dengan Nickelodeon & Paramount.</p>"
+            },
             dragonball: {
                 title: "Toei Animation Resmi Rilis \"Super Surge Trailer\" Anime Dragon Ball Super: Beerus!",
                 date: "📅 2 September 2026 | Sumber: 東映アニメーション公式YouTube",
@@ -875,16 +1000,50 @@
                 images: [],
                 short: "Kabar mengejutkan datang dari panggung penyiaran televisi nasional. Serial kartun anime legendaris Doraemon secara resmi dikabarkan menyudahi masa tayangnya di RCTI.",
                 full: "<br><p><b>📌 Ringkasan Informasi Penting:</b></p><p>1. <b>Akhir Era Minggu Pagi di RCTI:</b> Doraemon telah menjadi tayangan ikonik RCTI sejak era 1990-an.</p>"
+            },
+            gintama: {
+                title: "Proyek Baru \"Gintama: Yoshiwara in Flames\" Resmi Diumumkan!",
+                date: "📅 15 Agustus 2026 | Sumber: Aniplex & Sunrise Studio",
+                hasImages: true,
+                images: [
+                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop"
+                ],
+                short: "Studio Sunrise menggandeng Aniplex untuk menggarap ulang salah satu arc pertarungan terbaik dalam sejarah anime Gintama dengan perbaikan grafis total.",
+                full: "<br><p><b>🔥 Poin Penting Remake Yoshiwara Arc:</b></p><p>1. Kualitas animasi 60 FPS dengan efek pertarungan berstandar bioskop modern.</p><p>2. Menampilkan pengisi suara asli dari Gintoki Sakata, Kagura, dan Shinpachi.</p>"
+            },
+            onepiece: {
+                title: "One Piece Final Saga: Eiichiro Oda Buka Suara Mengenai Climax Cerita",
+                date: "📅 28 Juli 2026 | Sumber: Weekly Shonen Jump",
+                hasImages: true,
+                images: [
+                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop"
+                ],
+                short: "Eiichiro Oda memberikan pesan khusus bagi para penggemar One Piece di seluruh dunia menjelang pertempuran akhir di alur Final Saga.",
+                full: "<br><p><b>☠️ Bocoran Eiichiro Oda:</b></p><p>1. Misteri besar Kerajaan Kuno dan Joy Boy akan terungkap secara rinci.</p><p>2. Oda memastikan bahwa rahasia lokasi One Piece tidak akan terduga oleh siapapun.</p>"
+            },
+            demonslayer: {
+                title: "Ufotable Rilis Visual Teaser Pertama Film Trilogi Demon Slayer: Infinity Castle",
+                date: "📅 10 Juni 2026 | Sumber: Ufotable Official",
+                hasImages: true,
+                images: [
+                    "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop"
+                ],
+                short: "Studio Ufotable secara resmi merilis poster visual dan cuplikan singkat untuk bagian pertama film layar lebar Infinity Castle Arc.",
+                full: "<br><p><b>⚔️ Informasi Trilogi Film:</b></p><p>1. Pengalaman menonton bioskop format IMAX dengan sistem audio spatial 3D.</p><p>2. Berfokus pada pertempuran sengit para Hashira melawan Para Iblis Bulan Upper Rank.</p>"
             }
         };
 
-        // --- VERIFIKASI TAUTAN OTOMATIS & INTEGRASI FILE UPLOAD ---
         function verifyLinkInput() {
             const urlInput = document.getElementById('inputUrl').value.trim();
             const badge = document.getElementById('linkStatusBadge');
             const fileBox = document.getElementById('fileUploadContainer');
 
-            // Cek kriteria simpel apakah tautan valid
             if (urlInput.length > 8 && (urlInput.startsWith("http://") || urlInput.startsWith("https://"))) {
                 badge.classList.add('active');
                 fileBox.classList.add('active');
@@ -894,38 +1053,6 @@
             }
         }
 
-        // --- SISTEM UPLOAD PUBLIK (UGC) ---
-        let publicArticles = JSON.parse(localStorage.getItem('hanzy_user_news')) || [];
-
-        function renderPublicNews() {
-            publicArticles.forEach(item => {
-                const card = document.createElement('article');
-                card.className = "news-card news-item user";
-                
-                let fileNotice = item.fileName ? `<p class="news-excerpt" style="color: var(--accent-blue); font-size: 0.85rem;">📌 Lampiran Berkas: ${item.fileName}</p>` : '';
-
-                card.innerHTML = `
-                    <div class="news-body">
-                        <div class="news-meta">
-                            <span class="tag-user">📩 Kiriman: ${item.author}</span>
-                            <span class="date">📅 ${item.date}</span>
-                        </div>
-                        <h2 class="news-title" onclick="window.open('${item.url}', '_blank')">${item.title}</h2>
-                        <p class="news-excerpt">Tautan Sumber: <a href="${item.url}" target="_blank" style="color: var(--accent-blue);">${item.url}</a></p>
-                        ${fileNotice}
-                        
-                        <div class="share-container">
-                            <span class="share-label">🚀 Bagikan:</span>
-                            <button class="share-btn btn-wa" onclick="shareDirect('wa', '${item.title}', '${item.url}')">WhatsApp</button>
-                            <button class="share-btn btn-tg" onclick="shareDirect('tg', '${item.title}', '${item.url}')">Telegram</button>
-                            <button class="share-btn btn-copy" onclick="copyDirect('${item.url}')">🔗 Salin Tautan</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('newsContainer').prepend(card);
-            });
-        }
-
         function submitPublicNews(event) {
             event.preventDefault();
             const title = document.getElementById('inputTitle').value;
@@ -933,28 +1060,96 @@
             const author = document.getElementById('inputAuthor').value;
             const fileInput = document.getElementById('inputFile');
             
-            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : null;
-
-            const newItem = {
-                title: title,
-                url: url,
-                author: author,
-                fileName: fileName,
-                date: new Date().toLocaleDateString('id-ID')
+            const processUpload = (mediaUrl, mediaType) => {
+                const newPostRef = database.ref('public_news').push();
+                newPostRef.set({
+                    title: title,
+                    url: url,
+                    author: author,
+                    mediaUrl: mediaUrl || '',
+                    mediaType: mediaType || 'none',
+                    timestamp: Date.now()
+                }, (error) => {
+                    if (error) {
+                        alert("Gagal terhubung ke server: " + error.message);
+                    } else {
+                        document.getElementById('publicNewsForm').reset();
+                        verifyLinkInput();
+                        showToast("🚀 Berita berhasil dikirim ke server publik!");
+                    }
+                });
             };
 
-            publicArticles.push(newItem);
-            localStorage.setItem('hanzy_user_news', JSON.stringify(publicArticles));
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const mediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                    processUpload(e.target.result, mediaType);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                processUpload('', 'none');
+            }
+        }
 
-            document.getElementById('publicNewsForm').reset();
-            verifyLinkInput(); // Reset tampilan status badge & file upload
-            location.reload(); 
+        database.ref('public_news').on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            renderServerNewsCard(data);
+        });
+
+        function renderServerNewsCard(data) {
+            let mediaHtml = '';
+
+            if (data.mediaType === 'video') {
+                mediaHtml = `<video class="news-video" controls><source src="${data.mediaUrl}">Browser Anda tidak mendukung pemutar video.</video>`;
+            } else if (data.mediaType === 'image') {
+                mediaHtml = `<img src="${data.mediaUrl}" alt="${data.title}" class="news-image">`;
+            } else {
+                mediaHtml = `
+                    <div class="news-logo-placeholder" onclick="window.open('${data.url}', '_blank')">
+                        <div class="placeholder-title">
+                            𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐
+                            <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge">
+                        </div>
+                        <div class="placeholder-sub">Public Submission</div>
+                    </div>`;
+            }
+
+            const card = document.createElement('article');
+            card.className = "news-card news-item user";
+            card.innerHTML = `
+                ${mediaHtml}
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="tag-user">📩 Kiriman: ${data.author}</span>
+                        <span class="date">📅 ${new Date(data.timestamp).toLocaleDateString('id-ID')}</span>
+                    </div>
+                    <h2 class="news-title" onclick="window.open('${data.url}', '_blank')">${data.title}</h2>
+                    <p class="news-excerpt">Tautan Sumber: <a href="${data.url}" target="_blank" style="color: var(--accent-blue);">${data.url}</a></p>
+                    
+                    <div class="share-container">
+                        <span class="share-label">🚀 Bagikan:</span>
+                        <button class="share-btn btn-wa" onclick="shareDirect('wa', '${data.title}', '${data.url}')">WhatsApp</button>
+                        <button class="share-btn btn-fb" onclick="shareDirect('fb', '${data.title}', '${data.url}')">Facebook</button>
+                        <button class="share-btn btn-tt" onclick="shareDirect('tt', '${data.title}', '${data.url}')">TikTok</button>
+                        <button class="share-btn btn-x" onclick="shareDirect('x', '${data.title}', '${data.url}')">X / Twitter</button>
+                        <button class="share-btn btn-tg" onclick="shareDirect('tg', '${data.title}', '${data.url}')">Telegram</button>
+                        <button class="share-btn btn-copy" onclick="copyDirect('${data.url}')">🔗 Salin Tautan</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('newsContainer').prepend(card);
         }
 
         function shareDirect(platform, title, url) {
             const text = encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${title}\n\nTautan: ${url}`);
             if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
             if (platform === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`, '_blank');
+            if (platform === 'tt') { copyDirect(url); window.open("https://www.tiktok.com/", "_blank"); }
         }
 
         function copyDirect(url) {
@@ -962,7 +1157,6 @@
             showToast("✅ Tautan berhasil disalin!");
         }
 
-        // --- SISTEM MODAL & SLIDER ---
         let slideIndex = 0;
 
         function openNews(key) {
@@ -1073,7 +1267,6 @@
         }
 
         window.addEventListener('load', () => {
-            renderPublicNews();
             const hash = window.location.hash.substring(1);
             if (hash && newsData[hash]) openNews(hash);
         });
