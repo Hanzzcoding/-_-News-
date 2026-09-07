@@ -700,6 +700,34 @@
 
             <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
+                <!-- BERITA GPT-6 ASTRA -->
+                <article class="news-card news-item ai trending">
+                    <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
+                        <source src="https://files.catbox.moe/363py8.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">🤖 OpenAI & AI Breakthrough</span>
+                            <span class="date">📅 7 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('gpt6')">OpenAI Rilis GPT-6 Astra: Model Otonom Terbaru yang Mampu Mengoperasikan Komputer Secara Mandiri!</h2>
+                        <p class="news-excerpt" onclick="openNews('gpt6')">OpenAI kembali mengguncang dunia AI lewat GPT-6 Astra. Model ini dapat browsing, mengolah spreadsheet, hingga mengirim email hanya dari instruksi suara.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('gpt6')">Klik untuk membaca skor tes AGI & video selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'gpt6')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'gpt6')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'gpt6')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'gpt6')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'gpt6')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('gpt6')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
                 <!-- BERITA GUNUNG ANAK KRAKATAU -->
                 <article class="news-card news-item ai trending">
                     <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
@@ -904,11 +932,11 @@
             <div class="sidebar-widget">
                 <h3 class="widget-title">🔥 Trending Topik</h3>
                 <ul class="sidebar-list">
+                    <li><a onclick="openNews('gpt6')"># OpenAI Rilis GPT-6 Astra</a></li>
                     <li><a onclick="openNews('krakatau')"># Erupsi Anak Krakatau Level III</a></li>
                     <li><a onclick="openNews('spongebob')"># SpongeBob Hilang di GTV</a></li>
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
                     <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
-                    <li><a onclick="openNews('gintama')"># Gintama Yoshiwara Arc</a></li>
                     <li><a onclick="openNews('demonslayer')"># Demon Slayer Infinity Castle</a></li>
                 </ul>
             </div>
@@ -1001,6 +1029,17 @@
 
         // --- DATA BERITA LOKAL ---
         const newsData = {
+            gpt6: {
+                title: "OpenAI Rilis GPT-6 Astra: Model Otonom Terbaru yang Mampu Mengoperasikan Komputer Secara Mandiri!",
+                date: "📅 7 September 2026 | Sumber: TikTok cryptosyzz (@vt.tiktok.com/ZSq69xGrR/)",
+                hasImages: true,
+                isVideo: true,
+                media: [
+                    { type: 'video', src: 'https://files.catbox.moe/363py8.mp4' }
+                ],
+                short: "OpenAI kembali mengguncang industri teknologi lewat peluncuran GPT-6 Astra, model terbaru yang diklaim mampu mengoperasikan komputer layaknya manusia—mulai dari browsing, mengisi formulir, mengolah spreadsheet, hingga mengirim email secara mandiri hanya lewat instruksi suara.",
+                full: "<br><p><b>💡 Pencapaian Utama & Fitur GPT-6 Astra:</b></p><p>1. <b>Performa Uji Coba:</b> Model ini mencetak skor impresif <b>98,6% pada uji ARC-AGI-3</b> serta <b>100% pada tes peretasan</b> dengan menemukan kerentanan sistem baru secara mandiri.</p><p>2. <b>Era Baru AGI:</b> Presiden OpenAI Greg Brockman secara terbuka menyatakan keyakinannya bahwa era Artificial General Intelligence (AGI) telah resmi tiba.</p><p>3. <b>Akses Komputer Otonom:</b> Kehadiran model otonom yang siap diakses pengguna ChatGPT berbayar ini menandai pergeseran masif dari AI konvensional menuju agen digital yang mampu mengeksekusi alur kerja kompleks dari hulu ke hilir.</p><br><p><b>Sumber Tautan Asli:</b> <a href=\"https://vt.tiktok.com/ZSq69xGrR/\" target=\"_blank\" style=\"color:var(--accent-blue);\">TikTok @cryptosyzz</a></p>"
+            },
             krakatau: {
                 title: "Gunung Anak Krakatau Level III (Siaga): Sebaran Abu Vulkanik Mengarah ke Samudra Hindia",
                 date: "📅 7 September 2026 | Sumber: TikTok info berita (@vt.tiktok.com/ZSq6mUjLf/)",
