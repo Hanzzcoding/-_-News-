@@ -486,7 +486,7 @@
             display: block;
         }
 
-        .carousel-slide img {
+        .carousel-slide img, .carousel-slide video {
             width: 100%;
             max-height: 500px;
             object-fit: contain;
@@ -638,7 +638,7 @@
             .container { grid-template-columns: 1fr; }
             .modal-body { padding: 1.2rem; }
             .modal-title { font-size: 1.3rem; }
-            .carousel-slide img { max-height: 320px; }
+            .carousel-slide img, .carousel-slide video { max-height: 320px; }
             .share-container { justify-content: center; }
         }
     </style>
@@ -700,7 +700,35 @@
 
             <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
-                <!-- BERITA SPONGEBOB (GAMBAR S) -->
+                <!-- BERITA GUNUNG ANAK KRAKATAU -->
+                <article class="news-card news-item ai trending">
+                    <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
+                        <source src="https://files.catbox.moe/oxkfmq.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">🌋 BMKG & PVMBG Update</span>
+                            <span class="date">📅 7 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('krakatau')">Gunung Anak Krakatau Level III (Siaga): Sebaran Abu Vulkanik Mengarah ke Samudra Hindia</h2>
+                        <p class="news-excerpt" onclick="openNews('krakatau')">Semenjak Gunung Anak Krakatau berstatus Level III (Siaga), sebaran abu vulkanik terbawa angin ke arah Samudra Hindia sehingga tidak langsung mengarah ke pemukiman padat penduduk.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('krakatau')">Klik untuk membaca imbauan resmi & video selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'krakatau')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'krakatau')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'krakatau')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'krakatau')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'krakatau')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('krakatau')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BERITA SPONGEBOB -->
                 <article class="news-card news-item ai trending">
                     <img src="https://files.catbox.moe/9jpo0q.jpg" alt="SpongeBob SquarePants" class="news-image" onclick="openNews('spongebob')">
                     <div class="news-body">
@@ -876,6 +904,7 @@
             <div class="sidebar-widget">
                 <h3 class="widget-title">🔥 Trending Topik</h3>
                 <ul class="sidebar-list">
+                    <li><a onclick="openNews('krakatau')"># Erupsi Anak Krakatau Level III</a></li>
                     <li><a onclick="openNews('spongebob')"># SpongeBob Hilang di GTV</a></li>
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
                     <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
@@ -893,9 +922,9 @@
             <div class="modal-body">
                 
                 <div class="carousel-container" id="carouselWrapper">
-                    <div class="carousel-slide active"><img id="img1" src="" alt="Slide 1"></div>
-                    <div class="carousel-slide"><img id="img2" src="" alt="Slide 2"></div>
-                    <div class="carousel-slide"><img id="img3" src="" alt="Slide 3"></div>
+                    <div class="carousel-slide active" id="slide1"></div>
+                    <div class="carousel-slide" id="slide2"></div>
+                    <div class="carousel-slide" id="slide3"></div>
 
                     <button class="prev-btn" onclick="changeSlide(-1)">&#10094;</button>
                     <button class="next-btn" onclick="changeSlide(1)">&#10095;</button>
@@ -957,6 +986,9 @@
     </footer>
 
     <script>
+        // --- BASE URL WEBSITE KAMU (GITHUB PAGES) ---
+        const BASE_WEBSITE_URL = "https://hanzzcoding.github.io/-_-News-/";
+
         // --- KONFIGURASI SERVER DATABASE ---
         const firebaseConfig = {
             databaseURL: "https://DATABASE_KAMU.firebaseio.com"
@@ -967,16 +999,28 @@
         }
         const database = firebase.database();
 
-        // --- DATA BERITA LOKAL (LENGKAP) ---
+        // --- DATA BERITA LOKAL ---
         const newsData = {
+            krakatau: {
+                title: "Gunung Anak Krakatau Level III (Siaga): Sebaran Abu Vulkanik Mengarah ke Samudra Hindia",
+                date: "📅 7 September 2026 | Sumber: TikTok info berita (@vt.tiktok.com/ZSq6mUjLf/)",
+                hasImages: true,
+                isVideo: true,
+                media: [
+                    { type: 'video', src: 'https://files.catbox.moe/oxkfmq.mp4' }
+                ],
+                short: "Semenjak Gunung Anak Krakatau berstatus Level III (Siaga), sebaran abu vulkanik menjadi perhatian masyarakat. Berdasarkan informasi yang beredar, mayoritas abu vulkanik disebut terbawa angin ke arah Samudra Hindia, sehingga tidak langsung mengarah ke kawasan yang padat penduduk.",
+                full: "<br><p>MasyaAllahnya, Allah masih menyayangi kita. 🤲❤️ Di tengah kondisi seperti ini, kita kembali diingatkan bahwa masih banyak perlindungan dan kasih sayang-Nya yang patut kita syukuri.</p><p>Meski demikian, warga tetap diimbau untuk waspada dan mengikuti informasi resmi dari pihak berwenang, terutama terkait perkembangan aktivitas Gunung Anak Krakatau dan arah sebaran abu vulkanik. Semoga Tuhan senantiasa melindungi kita, keluarga kita, dan seluruh masyarakat dari segala marabahaya. 🤲</p><br><p><b>Sumber Tautan Asli:</b> <a href=\"https://vt.tiktok.com/ZSq6mUjLf/\" target=\"_blank\" style=\"color:var(--accent-blue);\">TikTok Info Berita</a></p>"
+            },
             spongebob: {
                 title: "SpongeBob SquarePants Resmi Berhenti Tayang di GTV Awal September 2026!",
                 date: "📅 5 September 2026 | Sumber: ChatNews & Suara Garut",
                 hasImages: true,
-                images: [
-                    "https://files.catbox.moe/9jpo0q.jpg",
-                    "https://files.catbox.moe/r1m3c7.jpg",
-                    "https://files.catbox.moe/ihqu48.jpg"
+                isVideo: false,
+                media: [
+                    { type: 'image', src: "https://files.catbox.moe/9jpo0q.jpg" },
+                    { type: 'image', src: "https://files.catbox.moe/r1m3c7.jpg" },
+                    { type: 'image', src: "https://files.catbox.moe/ihqu48.jpg" }
                 ],
                 short: "Serial animasi SpongeBob SquarePants dilaporkan resmi menghilang dari jadwal tayang harian stasiun televisi GTV mulai awal September 2026.",
                 full: "<br><p><b>🧽 Poin Penting Penghentian Tayang:</b></p><p>1. <b>Akhir dari 20 Tahun Penayangan:</b> Setelah bertahun-tahun menemani anak-anak Indonesia sejak era Global TV, slot tayang SpongeBob digantikan oleh program lain.</p><p>2. <b>Isu Lisensi Hak Siar:</b> Penghentian tayang diduga kuat karena habisnya masa kontrak hak siar antara stasiun TV dengan Nickelodeon & Paramount.</p>"
@@ -985,10 +1029,11 @@
                 title: "Toei Animation Resmi Rilis \"Super Surge Trailer\" Anime Dragon Ball Super: Beerus!",
                 date: "📅 2 September 2026 | Sumber: 東映アニメーション公式YouTube",
                 hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop"
+                isVideo: false,
+                media: [
+                    { type: 'image', src: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop" }
                 ],
                 short: "Kanal YouTube resmi Toei Animation meluncurkan 'Super Surge Trailer' berdurasi 1:52 untuk proyek anime terbaru 'Dragon Ball Super: Beerus'.",
                 full: "<br><p><b>💥 Detail Trailer & Lagu Tema:</b></p><p>1. <b>Jadwal Tayang:</b> Dijadwalkan rilis dan tayang secara global pada <b>Oktober 2026</b> di TV & platform streaming.</p>"
@@ -997,7 +1042,8 @@
                 title: "Pamit dari RCTI, Doraemon Segera Tayang di Stasiun TV Lain",
                 date: "📅 8 Januari 2026 | Sumber: Suara.com Entertainment",
                 hasImages: false,
-                images: [],
+                isVideo: false,
+                media: [],
                 short: "Kabar mengejutkan datang dari panggung penyiaran televisi nasional. Serial kartun anime legendaris Doraemon secara resmi dikabarkan menyudahi masa tayangnya di RCTI.",
                 full: "<br><p><b>📌 Ringkasan Informasi Penting:</b></p><p>1. <b>Akhir Era Minggu Pagi di RCTI:</b> Doraemon telah menjadi tayangan ikonik RCTI sejak era 1990-an.</p>"
             },
@@ -1005,10 +1051,11 @@
                 title: "Proyek Baru \"Gintama: Yoshiwara in Flames\" Resmi Diumumkan!",
                 date: "📅 15 Agustus 2026 | Sumber: Aniplex & Sunrise Studio",
                 hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop"
+                isVideo: false,
+                media: [
+                    { type: 'image', src: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop" }
                 ],
                 short: "Studio Sunrise menggandeng Aniplex untuk menggarap ulang salah satu arc pertarungan terbaik dalam sejarah anime Gintama dengan perbaikan grafis total.",
                 full: "<br><p><b>🔥 Poin Penting Remake Yoshiwara Arc:</b></p><p>1. Kualitas animasi 60 FPS dengan efek pertarungan berstandar bioskop modern.</p><p>2. Menampilkan pengisi suara asli dari Gintoki Sakata, Kagura, dan Shinpachi.</p>"
@@ -1017,10 +1064,11 @@
                 title: "One Piece Final Saga: Eiichiro Oda Buka Suara Mengenai Climax Cerita",
                 date: "📅 28 Juli 2026 | Sumber: Weekly Shonen Jump",
                 hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop"
+                isVideo: false,
+                media: [
+                    { type: 'image', src: "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop" }
                 ],
                 short: "Eiichiro Oda memberikan pesan khusus bagi para penggemar One Piece di seluruh dunia menjelang pertempuran akhir di alur Final Saga.",
                 full: "<br><p><b>☠️ Bocoran Eiichiro Oda:</b></p><p>1. Misteri besar Kerajaan Kuno dan Joy Boy akan terungkap secara rinci.</p><p>2. Oda memastikan bahwa rahasia lokasi One Piece tidak akan terduga oleh siapapun.</p>"
@@ -1029,10 +1077,11 @@
                 title: "Ufotable Rilis Visual Teaser Pertama Film Trilogi Demon Slayer: Infinity Castle",
                 date: "📅 10 Juni 2026 | Sumber: Ufotable Official",
                 hasImages: true,
-                images: [
-                    "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop"
+                isVideo: false,
+                media: [
+                    { type: 'image', src: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop" },
+                    { type: 'image', src: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop" }
                 ],
                 short: "Studio Ufotable secara resmi merilis poster visual dan cuplikan singkat untuk bagian pertama film layar lebar Infinity Castle Arc.",
                 full: "<br><p><b>⚔️ Informasi Trilogi Film:</b></p><p>1. Pengalaman menonton bioskop format IMAX dengan sistem audio spatial 3D.</p><p>2. Berfokus pada pertempuran sengit para Hashira melawan Para Iblis Bulan Upper Rank.</p>"
@@ -1135,7 +1184,7 @@
                         <button class="share-btn btn-tt" onclick="shareDirect('tt', '${data.title}', '${data.url}')">TikTok</button>
                         <button class="share-btn btn-x" onclick="shareDirect('x', '${data.title}', '${data.url}')">X / Twitter</button>
                         <button class="share-btn btn-tg" onclick="shareDirect('tg', '${data.title}', '${data.url}')">Telegram</button>
-                        <button class="share-btn btn-copy" onclick="copyDirect('${data.url}')">🔗 Salin Tautan</button>
+                        <button class="share-btn btn-copy" onclick="copyDirect('${data.title}', '${data.url}')">🔗 Salin Tautan</button>
                     </div>
                 </div>
             `;
@@ -1143,18 +1192,58 @@
             document.getElementById('newsContainer').prepend(card);
         }
 
-        function shareDirect(platform, title, url) {
-            const text = encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${title}\n\nTautan: ${url}`);
-            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-            if (platform === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`, '_blank');
-            if (platform === 'tt') { copyDirect(url); window.open("https://www.tiktok.com/", "_blank"); }
+        // --- FUNGSI FORMAT PESAN KHUSUS ---
+        function generateShareText(title, fullUrl) {
+            return `[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${title}\n\nBaca selengkapnya di:  ${fullUrl}`;
         }
 
-        function copyDirect(url) {
-            navigator.clipboard.writeText(url);
-            showToast("✅ Tautan berhasil disalin!");
+        function getShareUrl(key) {
+            return `${BASE_WEBSITE_URL}#${key}`;
+        }
+
+        function shareNews(platform, key) {
+            const item = newsData[key];
+            if (!item) return;
+
+            const fullUrl = getShareUrl(key);
+            const rawMessage = generateShareText(item.title, fullUrl);
+            const encodedMessage = encodeURIComponent(rawMessage);
+
+            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
+            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullUrl)}`, '_blank');
+            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${encodedMessage}`, '_blank');
+            if (platform === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(fullUrl)}&text=${encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${item.title}`)}`, '_blank');
+            if (platform === 'tt') { copyLink(key); window.open("https://www.tiktok.com/", "_blank"); }
+        }
+
+        function copyLink(key) {
+            const item = newsData[key];
+            if (!item) return;
+
+            const fullUrl = getShareUrl(key);
+            const textToCopy = generateShareText(item.title, fullUrl);
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("✅ Tautan & teks berita berhasil disalin!");
+            });
+        }
+
+        function shareDirect(platform, title, url) {
+            const rawMessage = generateShareText(title, url);
+            const encodedMessage = encodeURIComponent(rawMessage);
+
+            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
+            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${encodedMessage}`, '_blank');
+            if (platform === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${title}`)}`, '_blank');
+            if (platform === 'tt') { copyDirect(title, url); window.open("https://www.tiktok.com/", "_blank"); }
+        }
+
+        function copyDirect(title, url) {
+            const textToCopy = generateShareText(title, url);
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("✅ Tautan & teks berita berhasil disalin!");
+            });
         }
 
         let slideIndex = 0;
@@ -1166,12 +1255,22 @@
             const carouselWrapper = document.getElementById('carouselWrapper');
             const logoPlaceholder = document.getElementById('modalLogoPlaceholder');
 
-            if(data.hasImages && data.images.length > 0) {
+            if(data.hasImages && data.media.length > 0) {
                 carouselWrapper.style.display = "block";
                 logoPlaceholder.style.display = "none";
-                document.getElementById('img1').src = data.images[0];
-                document.getElementById('img2').src = data.images[1];
-                document.getElementById('img3').src = data.images[2];
+                
+                for(let i=1; i<=3; i++) {
+                    const slideEl = document.getElementById(`slide${i}`);
+                    slideEl.innerHTML = "";
+                    if(data.media[i-1]) {
+                        const m = data.media[i-1];
+                        if(m.type === 'video') {
+                            slideEl.innerHTML = `<video controls style="width:100%; max-height:500px;"><source src="${m.src}" type="video/mp4"></video>`;
+                        } else {
+                            slideEl.innerHTML = `<img src="${m.src}" alt="Slide ${i}">`;
+                        }
+                    }
+                }
             } else {
                 carouselWrapper.style.display = "none";
                 logoPlaceholder.style.display = "flex";
@@ -1236,27 +1335,6 @@
                 else if (card.classList.contains(category)) card.style.display = 'block';
                 else card.style.display = 'none';
             });
-        }
-
-        function getShareUrl(key) {
-            return `${window.location.href.split('#')[0]}#${key}`;
-        }
-
-        function shareNews(platform, key) {
-            const item = newsData[key];
-            if (!item) return;
-            const url = encodeURIComponent(getShareUrl(key));
-            const text = encodeURIComponent(`[𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐]\n\n${item.title}\n\nBaca selengkapnya di: `);
-
-            if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
-            if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-            if (platform === 'x')  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-            if (platform === 'tg') window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
-            if (platform === 'tt') { copyLink(key); window.open("https://www.tiktok.com/", "_blank"); }
-        }
-
-        function copyLink(key) {
-            navigator.clipboard.writeText(getShareUrl(key)).then(() => showToast("✅ Tautan berita berhasil disalin!"));
         }
 
         function showToast(message) {
