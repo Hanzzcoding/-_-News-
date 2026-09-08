@@ -700,6 +700,34 @@
 
             <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
+                <!-- BERITA VANESSA INILAH.COM -->
+                <article class="news-card news-item ai trending">
+                    <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
+                        <source src="https://files.catbox.moe/se9ess.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">🎵 Inilah.com <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge"></span>
+                            <span class="date">📅 8 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('vanessa')">Harumkan Nama Bangsa! Musisi Cilik Vanessa Raih Emas Ketiga & Platinum Award Lewat Guzheng Berbusana Sunda</h2>
+                        <p class="news-excerpt" onclick="openNews('vanessa')">Penampilan Vanessa di Festival Indonesiana sukses membawa pulang prestasi membanggakan dengan membawakan lagu Manuk Dadali memakai instrumen Guzheng dan busana Sunda.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('vanessa')">Klik untuk melihat rincian penghargaan & video selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'vanessa')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'vanessa')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'vanessa')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'vanessa')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'vanessa')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('vanessa')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
                 <!-- BERITA GPT-6 ASTRA -->
                 <article class="news-card news-item ai trending">
                     <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
@@ -932,12 +960,12 @@
             <div class="sidebar-widget">
                 <h3 class="widget-title">🔥 Trending Topik</h3>
                 <ul class="sidebar-list">
+                    <li><a onclick="openNews('vanessa')"># Vanessa Guzheng Manuk Dadali</a></li>
                     <li><a onclick="openNews('gpt6')"># OpenAI Rilis GPT-6 Astra</a></li>
                     <li><a onclick="openNews('krakatau')"># Erupsi Anak Krakatau Level III</a></li>
                     <li><a onclick="openNews('spongebob')"># SpongeBob Hilang di GTV</a></li>
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
                     <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
-                    <li><a onclick="openNews('demonslayer')"># Demon Slayer Infinity Castle</a></li>
                 </ul>
             </div>
         </aside>
@@ -1029,6 +1057,17 @@
 
         // --- DATA BERITA LOKAL ---
         const newsData = {
+            vanessa: {
+                title: "Harumkan Nama Bangsa! Musisi Cilik Vanessa Raih Emas Ketiga & Platinum Award Lewat Guzheng Berbusana Sunda",
+                date: "📅 8 September 2026 | Sumber: Inilah.com ✔️ (@vt.tiktok.com/ZSqrvCYUy/)",
+                hasImages: true,
+                isVideo: true,
+                media: [
+                    { type: 'video', src: 'https://files.catbox.moe/se9ess.mp4' }
+                ],
+                short: "Penampilan Vanessa di Festival Indonesiana sukses membawa pulang prestasi membanggakan. Musisi cilik ini meraih medali emas ketiganya sekaligus mendapatkan penghargaan Platinum Award berkat kepiawaiannya memainkan alat musik tradisional China, Guzheng.",
+                full: "<br><p><b>🎶 Poin Penting Penampilan Spektakuler Vanessa:</b></p><p>1. <b>Prestasi Gemilang:</b> Berhasil menyabet medali emas ketiganya serta penghargaan tertinggi <i>Platinum Award</i> di panggung Festival Indonesiana.</p><p>2. <b>Perpaduan Budaya yang Unik:</b> Vanessa membawakan lagu daerah populer Sunda, <b>'Manuk Dadali'</b>, menggunakan kecapi tradisional Tiongkok (Guzheng) sambil anggun mengenakan pakaian adat khas Sunda.</p><p>3. <b>Sorotan Media Terverifikasi:</b> Informasi resmi ini dipublikasikan oleh portal media nasional <b>Inilah.com <img src=\"https://files.catbox.moe/yl9zup.png\" alt=\"Verified\" class=\"verified-badge\"></b>.</p><br><p><b>Sumber Tautan Resmi:</b> <a href=\"https://vt.tiktok.com/ZSqrvCYUy/\" target=\"_blank\" style=\"color:var(--accent-blue);\">TikTok Inilah.com Official</a></p><p>#Inilahcom #ManukDadali #China #Guzheng #InilahNews</p>"
+            },
             gpt6: {
                 title: "OpenAI Rilis GPT-6 Astra: Model Otonom Terbaru yang Mampu Mengoperasikan Komputer Secara Mandiri!",
                 date: "📅 7 September 2026 | Sumber: TikTok cryptosyzz (@vt.tiktok.com/ZSq69xGrR/)",
@@ -1316,7 +1355,7 @@
             }
 
             document.getElementById('mTitle').innerText = data.title;
-            document.getElementById('mDate').innerText = data.date;
+            document.getElementById('mDate').innerHTML = data.date;
             document.getElementById('mShort').innerHTML = data.short;
             document.getElementById('mFull').innerHTML = data.full;
 
