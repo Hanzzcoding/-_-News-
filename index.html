@@ -700,6 +700,34 @@
 
             <div id="newsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
+                <!-- POSTINGAN GABUT ADMIN - JIWO 2HARTS -->
+                <article class="news-card news-item ai trending">
+                    <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
+                        <source src="https://files.catbox.moe/73djc0.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutar video.
+                    </video>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="tag-ai">👑 Admin Special Post | 2HARTS <img src="https://files.catbox.moe/yl9zup.png" alt="Verified" class="verified-badge"></span>
+                            <span class="date">📅 12 September 2026</span>
+                        </div>
+                        <h2 class="news-title" onclick="openNews('jiwo')">Admin Lagi Gabut Upload "My Bini": Jiwo 2HARTS My MBG 😋😋</h2>
+                        <p class="news-excerpt" onclick="openNews('jiwo')">Berita penting ❌ | Yang penting my bini ✔️! Momen spesial unggahan video Jiwo 2HARTS favorit Admin 𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐.</p>
+                        
+                        <span style="color: var(--accent-blue); font-size: 0.85rem; font-weight: bold; cursor: pointer;" onclick="openNews('jiwo')">Klik untuk melihat detail & video selengkapnya →</span>
+
+                        <div class="share-container">
+                            <span class="share-label">🚀 Bagikan:</span>
+                            <button class="share-btn btn-wa" onclick="shareNews('wa', 'jiwo')">WhatsApp</button>
+                            <button class="share-btn btn-fb" onclick="shareNews('fb', 'jiwo')">Facebook</button>
+                            <button class="share-btn btn-tt" onclick="shareNews('tt', 'jiwo')">TikTok</button>
+                            <button class="share-btn btn-x" onclick="shareNews('x', 'jiwo')">X / Twitter</button>
+                            <button class="share-btn btn-tg" onclick="shareNews('tg', 'jiwo')">Telegram</button>
+                            <button class="share-btn btn-copy" onclick="copyLink('jiwo')">🔗 Salin Tautan</button>
+                        </div>
+                    </div>
+                </article>
+
                 <!-- BERITA VANESSA INILAH.COM -->
                 <article class="news-card news-item ai trending">
                     <video class="news-video" controls poster="https://files.catbox.moe/fi50yk.png">
@@ -960,12 +988,12 @@
             <div class="sidebar-widget">
                 <h3 class="widget-title">🔥 Trending Topik</h3>
                 <ul class="sidebar-list">
+                    <li><a onclick="openNews('jiwo')"># Jiwo 2HARTS My Bini MBG</a></li>
                     <li><a onclick="openNews('vanessa')"># Vanessa Guzheng Manuk Dadali</a></li>
                     <li><a onclick="openNews('gpt6')"># OpenAI Rilis GPT-6 Astra</a></li>
                     <li><a onclick="openNews('krakatau')"># Erupsi Anak Krakatau Level III</a></li>
                     <li><a onclick="openNews('spongebob')"># SpongeBob Hilang di GTV</a></li>
                     <li><a onclick="openNews('dragonball')"># Dragon Ball Super: Beerus</a></li>
-                    <li><a onclick="openNews('doraemon')"># Doraemon Pindah TV</a></li>
                 </ul>
             </div>
         </aside>
@@ -1057,6 +1085,17 @@
 
         // --- DATA BERITA LOKAL ---
         const newsData = {
+            jiwo: {
+                title: "Admin Lagi Gabut Upload My Bini: Jiwo 2HARTS My MBG 😋😋",
+                date: "📅 12 September 2026 | Sumber: 2HARTS Official ✔️ (@vt.tiktok.com/ZSqmkK35R/)",
+                hasImages: true,
+                isVideo: true,
+                media: [
+                    { type: 'video', src: 'https://files.catbox.moe/73djc0.mp4' }
+                ],
+                short: "Admin 𝑯𝑨𝑵𝒁𝒀多音_𝑨𝒏𝒊𝒎𝒂𝒕𝒊𝒐𝒏 News🌐 lagi gabut nih! Tanpa berita berat, admin langsung mengunggah konten video spesial dari 'my bini' Jiwo harts 2harts my MBG 😋😋.",
+                full: "<br><p><b>✨ Unggahan Spesial Admin:</b></p><p>1. <b>Berita Penting:</b> ❌ Tidak ada!</p><p>2. <b>Yang Penting:</b> My Bini Jiwo 2HARTS ✔️!</p><p>3. <b>Status Akun Sumber:</b> Dipublikasikan oleh kanal resmi <b>2HARTS <img src=\"https://files.catbox.moe/yl9zup.png\" alt=\"Verified\" class=\"verified-badge\"></b>.</p><br><p><b>Sumber Tautan Asli:</b> <a href=\"https://vt.tiktok.com/ZSqmkK35R/\" target=\"_blank\" style=\"color:var(--accent-blue);\">TikTok Official 2HARTS</a></p>"
+            },
             vanessa: {
                 title: "Harumkan Nama Bangsa! Musisi Cilik Vanessa Raih Emas Ketiga & Platinum Award Lewat Guzheng Berbusana Sunda",
                 date: "📅 8 September 2026 | Sumber: Inilah.com ✔️ (@vt.tiktok.com/ZSqrvCYUy/)",
